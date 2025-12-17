@@ -36,6 +36,8 @@ const project = new awscdk.AwsCdkConstructLibrary({
   },
   autoMerge: false,
   mergify: false,
+  autoApproveUpgrades: true,
+  autoApproveOptions: {},
   release: true,
   releaseTrigger: ReleaseTrigger.workflowDispatch(),
   releasableCommits: ReleasableCommits.featuresAndFixes(),
