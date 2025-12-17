@@ -1,4 +1,4 @@
-import { awscdk, ReleasableCommits } from 'projen';
+import { awscdk, JsonPatch, ReleasableCommits } from 'projen';
 import { GithubCredentials } from 'projen/lib/github';
 import { AppPermission } from 'projen/lib/github/workflows-model';
 import {
@@ -89,6 +89,12 @@ const project = new awscdk.AwsCdkConstructLibrary({
   ],
   packageName: '@jttc/aws-ipam',
 });
+
+project.github
+  ?.tryFindWorkflow('release')
+  ?.file?.patch(
+    JsonPatch.replace('/jobs/release_npm/steps/0/with/node-version', '24.x')
+  );
 
 project.addTask('commit', {
   description:
