@@ -33,7 +33,8 @@
         "BUMPFILE": "dist/version.txt",
         "RELEASETAG": "dist/releasetag.txt",
         "RELEASE_TAG_PREFIX": "",
-        "BUMP_PACKAGE": "commit-and-tag-version@^12"
+        "BUMP_PACKAGE": "commit-and-tag-version@^12",
+        "RELEASABLE_COMMITS": "git log --no-merges --oneline $LATEST_TAG..HEAD -E --grep \"^(feat|fix){1}(\\([^()[:space:]]+\\))?(!)?:[[:blank:]]+.+\""
       },
       "steps": [
         {
@@ -73,6 +74,17 @@
         }
       ],
       "condition": "git diff --exit-code > /dev/null"
+    },
+    "commit": {
+      "name": "commit",
+      "description": "Commit changes with conventional commits prompts provided by Commitizen",
+      "steps": [
+        {
+          "exec": "./node_modules/cz-customizable/standalone.js",
+          "receiveArgs": false,
+          "say": "committing changes"
+        }
+      ]
     },
     "compat": {
       "name": "compat",
@@ -207,7 +219,9 @@
       "name": "release",
       "description": "Prepare a release from \"main\" branch",
       "env": {
-        "RELEASE": "true"
+        "RELEASE": "true",
+        "MAJOR": "1",
+        "PRERELEASE": "beta"
       },
       "steps": [
         {
@@ -232,11 +246,43 @@
       "description": "Run tests",
       "steps": [
         {
-          "exec": "jest --passWithNoTests --updateSnapshot",
-          "receiveArgs": true
+          "spawn": "test:unit"
         },
         {
           "spawn": "eslint"
+        }
+      ]
+    },
+    "test:snapshot": {
+      "name": "test:snapshot",
+      "description": "Snapshots Tests",
+      "steps": [
+        {
+          "exec": "jest --group=snapshot --collectCoverage=false",
+          "say": "Snapshots Tests",
+          "receiveArgs": true
+        }
+      ]
+    },
+    "test:snapshot:update": {
+      "name": "test:snapshot:update",
+      "description": "Update snapshots",
+      "steps": [
+        {
+          "exec": "jest --updateSnapshot --collectCoverage=false",
+          "say": "Updating snapshots",
+          "receiveArgs": true
+        }
+      ]
+    },
+    "test:unit": {
+      "name": "test:unit",
+      "description": "Unit Tests",
+      "steps": [
+        {
+          "exec": "jest --group=unit",
+          "say": "Unit Tests",
+          "receiveArgs": true
         }
       ]
     },
@@ -258,7 +304,8 @@
         "BUMPFILE": "dist/version.txt",
         "RELEASETAG": "dist/releasetag.txt",
         "RELEASE_TAG_PREFIX": "",
-        "BUMP_PACKAGE": "commit-and-tag-version@^12"
+        "BUMP_PACKAGE": "commit-and-tag-version@^12",
+        "RELEASABLE_COMMITS": "git log --no-merges --oneline $LATEST_TAG..HEAD -E --grep \"^(feat|fix){1}(\\([^()[:space:]]+\\))?(!)?:[[:blank:]]+.+\""
       },
       "steps": [
         {
@@ -274,13 +321,13 @@
       },
       "steps": [
         {
-          "exec": "npx npm-check-updates@18 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@types/jest,@types/node,eslint-import-resolver-typescript,eslint-plugin-import,jest,jsii-diff,jsii-pacmak,projen,ts-jest,ts-node,typescript"
+          "exec": "npx npm-check-updates@18 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@types/jest,@types/node,commitizen,cz-customizable,eslint-config-prettier,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,jest,jest-docblock,jest-runner,jest-runner-groups,jsii-diff,jsii-pacmak,prettier,projen,ts-jest,ts-node,typescript"
         },
         {
           "exec": "yarn install --check-files"
         },
         {
-          "exec": "yarn upgrade @stylistic/eslint-plugin @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser commit-and-tag-version eslint-import-resolver-typescript eslint-plugin-import eslint jest jest-junit jsii-diff jsii-docgen jsii-pacmak jsii-rosetta jsii projen ts-jest ts-node typescript aws-cdk-lib constructs"
+          "exec": "yarn upgrade @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser commit-and-tag-version commitizen cz-customizable eslint-config-prettier eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint jest jest-docblock jest-junit jest-runner jest-runner-groups jsii-diff jsii-docgen jsii-pacmak jsii-rosetta jsii prettier projen ts-jest ts-node typescript aws-cdk-lib constructs"
         },
         {
           "exec": "npx projen"

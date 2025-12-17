@@ -1,5 +1,5 @@
 {
-  "name": "aws-ipam",
+  "name": "@jttc/aws-ipam",
   "repository": {
     "type": "git",
     "url": "git@github.com:JumpToTheCloud/aws-ipam.git"
@@ -8,6 +8,7 @@
     "build": "npx projen build",
     "bump": "npx projen bump",
     "clobber": "npx projen clobber",
+    "commit": "npx projen commit",
     "compat": "npx projen compat",
     "compile": "npx projen compile",
     "default": "npx projen default",
@@ -22,6 +23,9 @@
     "pre-compile": "npx projen pre-compile",
     "release": "npx projen release",
     "test": "npx projen test",
+    "test:snapshot": "npx projen test:snapshot",
+    "test:snapshot:update": "npx projen test:snapshot:update",
+    "test:unit": "npx projen test:unit",
     "test:watch": "npx projen test:watch",
     "unbump": "npx projen unbump",
     "upgrade": "npx projen upgrade",
@@ -29,49 +33,59 @@
     "projen": "npx projen"
   },
   "author": {
-    "name": "Antonio Márquez Pérez",
+    "name": "JumpToTheCloud",
     "email": "antonio.marquez@jumptothecloud.tech",
     "organization": false
   },
   "devDependencies": {
-    "@stylistic/eslint-plugin": "^2",
     "@types/jest": "^30.0.0",
     "@types/node": "^25.0.2",
     "@typescript-eslint/eslint-plugin": "^8",
     "@typescript-eslint/parser": "^8",
-    "aws-cdk-lib": "2.1.0",
+    "aws-cdk-lib": "2.232.2",
     "commit-and-tag-version": "^12",
-    "constructs": "10.0.5",
+    "commitizen": "^4.3.1",
+    "constructs": "10.4.2",
+    "cz-customizable": "^7.5.1",
     "eslint": "^9",
+    "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-prettier": "^5.5.4",
     "jest": "^30.2.0",
+    "jest-docblock": "^30.2.0",
     "jest-junit": "^16",
+    "jest-runner": "^30.2.0",
+    "jest-runner-groups": "^2.2.0",
     "jsii": "~5.9.0",
     "jsii-diff": "^1.121.0",
     "jsii-docgen": "^10.5.0",
     "jsii-pacmak": "^1.121.0",
     "jsii-rosetta": "~5.9.0",
+    "prettier": "^3.7.4",
     "projen": "^0.98.30",
     "ts-jest": "^29.4.6",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   },
   "peerDependencies": {
-    "aws-cdk-lib": "^2.1.0",
-    "constructs": "^10.0.5"
+    "aws-cdk-lib": "^2.232.2",
+    "constructs": "^10.4.2"
   },
   "keywords": [
-    "cdk"
+    "aws",
+    "cdk",
+    "ipam",
+    "ipam allocation",
+    "ipam pool",
+    "ipam scope"
   ],
   "main": "lib/index.js",
   "license": "Apache-2.0",
-  "publishConfig": {
-    "access": "public"
-  },
   "version": "0.0.0",
   "jest": {
     "coverageProvider": "v8",
+    "verbose": true,
     "testMatch": [
       "<rootDir>/@(src|test)/**/*(*.)@(spec|test).ts?(x)",
       "<rootDir>/@(src|test)/**/__tests__/**/*.ts?(x)",
