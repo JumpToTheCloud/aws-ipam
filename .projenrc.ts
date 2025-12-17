@@ -2,6 +2,7 @@ import { awscdk, ReleasableCommits } from 'projen';
 import { GithubCredentials } from 'projen/lib/github';
 import { AppPermission } from 'projen/lib/github/workflows-model';
 import {
+  NpmAccess,
   TrailingComma,
   UpgradeDependenciesSchedule,
 } from 'projen/lib/javascript';
@@ -88,6 +89,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
     'jest-docblock',
   ],
   packageName: '@jttc/aws-ipam',
+  npmAccess: NpmAccess.PUBLIC,
 });
 //project.npmrc.addConfig('//registry.npmjs.org/:_authToken', '${NPM_TOKEN}');
 
